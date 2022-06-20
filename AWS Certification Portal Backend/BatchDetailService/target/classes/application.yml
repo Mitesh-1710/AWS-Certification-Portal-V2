@@ -1,0 +1,31 @@
+server:
+  port: 8083
+
+spring:
+  application:
+      name: BatchDetailService
+  data:
+   mongodb:
+     uri: mongodb+srv://Mitesh:tZWcMFA9xyQ8pNbh@clustertest.mbl85.mongodb.net/AWSCertificationPortalUpdatedDB?retryWrites=true&w=majority
+     
+data:
+  exception:
+     dataExists: Batch Detail Record Already Exists..!!
+     nameNotFound: Batch Name Not Found..!!
+
+eureka:
+   client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+       defaultZone: http://localhost:8761/eureka/
+
+logging:
+  file:
+    name: BatchDetailService.log
+    
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 3600000 # 1hr duration by default: 60 minutes * 60 seconds * 1000 miliseconds

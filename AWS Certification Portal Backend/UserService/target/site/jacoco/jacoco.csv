@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+UserService,com.cg.user.service,UserServiceImpl,24,292,6,12,8,67,6,11,0,8
+UserService,com.cg.user,UserServiceApplication,5,15,0,0,2,6,1,2,1,2
+UserService,com.cg.user.controller,UserController,0,78,0,0,0,13,0,9,0,9
+UserService,com.cg.user.model,UserModel,0,213,0,0,0,87,0,51,0,51
+UserService,com.cg.user.exception,IdNotFoundException,0,3,0,0,0,2,0,1,0,1
+UserService,com.cg.user.exception,DataAlreadyExistsException,0,3,0,0,0,2,0,1,0,1
+UserService,com.cg.user.exception,EmailAlreadyExistsException,0,3,0,0,0,2,0,1,0,1

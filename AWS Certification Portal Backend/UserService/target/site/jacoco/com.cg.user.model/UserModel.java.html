@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UserService</a> &gt; <a href="index.source.html" class="el_package">com.cg.user.model</a> &gt; <span class="el_source">UserModel.java</span></div><h1>UserModel.java</h1><pre class="source lang-java linenums">package com.cg.user.model;
+
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.Generated;
+
+//class for storing the user details to the database
+@Document(collection=&quot;User&quot;)
+public class UserModel {
+
+	static final long max = 9999999999L;
+	static final long min = 1000000000L;
+	
+	@Id
+	@Min(value=1, message=&quot;Employe ID must not be less than 1 &quot;) // spring validation for min value
+	@Max(value=100, message=&quot;Employe ID must not be  greater than 100&quot;) // spring validation for max value
+	private int empID; // primary key for the User collection
+	
+	@NotEmpty(message=&quot;Please enter employee Name&quot;) // spring validation for empty fields
+	@Size(min=5, message=&quot;Name must have minmum 5 characters &quot;) // spring validation for min/max value for string type variable
+	private String empName;
+	
+	@NotEmpty(message=&quot;Please enter employee email&quot;) // spring validation for empty fields
+	@Email(message = &quot;Please enter a valid email&quot;) //spring validation for email
+	private String email;
+	
+	@Min(value=min, message=&quot;Employe contact number must not be less than 1000000000 &quot;) // spring validation for min value
+	@Max(value=max, message=&quot;Employe contact number must not be  greater than 9999999999&quot;) // spring validation for max value
+	private long contactNumber;
+	
+	@NotEmpty(message=&quot;Please enter employee grade&quot;) // spring validation for empty fields
+	@Size(min=1, message=&quot;Name must have minimum 1 character &quot;) // spring validation for min/max value for string type variable
+	@Size(max=2, message=&quot;Name must have maximum 2 characters &quot;) // spring validation for min/max value for string type variable
+	private String grade;
+	
+	@NotEmpty(message=&quot;Please enter password&quot;) // spring validation for empty fields
+	@Size(min=8, message=&quot;Password must have minmum 8 characters &quot;) // spring validation for min/max value for string type variable
+	private String password;
+	
+	private String joiningDate;
+	
+	@NotEmpty(message=&quot;Please enter Batch name&quot;) // spring validation for empty fields
+	@Size(min=5, message=&quot;Batch name must have minmum 5 characters &quot;) // spring validation for min/max value for string type variable
+	private String batchName; // primary key for the BatchDetail collection
+	
+<span class="fc" id="L54">	private String role = &quot;ROLE_NORMAL&quot;;</span>
+	
+	//status will be updated at back-end based on user joining date, value can be either Fresher(under 6 months of joining date) or Lateral(pass 6 months of joining date)
+	private String status;
+	
+	//Fields which can be updated after based on batchName input given by user
+	private String trainedBy;
+	private String mentorName;
+	private String mentorEmail;
+	private String reportingManagerName;
+	private String reportingManagerEmail;
+	
+	//Fields which can be updated after user enrolled in certification course
+	private String certificationName;
+	private String enrolledStatus;
+	private String enrolledDate;
+	private String deadlineDate;
+	
+	//Fields which can be updated after user apply for an assessment
+	private int numberOfAttempts;
+	private int firstAttempt;
+	private int secondAttempt;
+	private int thirdAttempt;
+	
+	//Voucher status will be updated after user passed the assessment
+<span class="fc" id="L79">	private String voucherStatus = &quot;Not Shared&quot;;</span>
+	private String certificationStatus;
+	
+	//default constructor
+	public UserModel() {
+<span class="fc" id="L84">		super();</span>
+<span class="fc" id="L85">	}</span>
+
+	//parameterized constructor
+	public UserModel(
+			@Min(value = 1, message = &quot;Employe ID must not be less than 1 &quot;) @Max(value = 100, message = &quot;Employe ID must not be  greater than 100&quot;) int empID,
+			@NotEmpty(message = &quot;Please enter employee Name&quot;) @Size(min = 5, message = &quot;Name must have minmum 5 characters &quot;) String empName,
+			@NotEmpty(message = &quot;Please enter employee email&quot;) @Email(message = &quot;Please enter a valid email&quot;) String email,
+			@Min(value =min, message = &quot;Employe contact number must not be less than 1000000000 &quot;) @Max(value = max, message = &quot;Employe contact number must not be  greater than 9999999999&quot;) long contactNumber,
+			@NotEmpty(message = &quot;Please enter employee Name&quot;) @Size(min = 1, message = &quot;Name must have minimum 1 character &quot;) @Size(max = 2, message = &quot;Name must have maximum 2 characters &quot;) String grade,
+			@NotEmpty(message = &quot;Please enter password&quot;) @Size(min = 8, message = &quot;Password must have minmum 8 characters &quot;) String password,
+			String joiningDate,
+			@NotEmpty(message = &quot;Please enter Batch name&quot;) @Size(min = 5, message = &quot;Batch name must have minmum 5 characters &quot;) String batchName) {
+<span class="fc" id="L97">		super();</span>
+<span class="fc" id="L98">		this.empID = empID;</span>
+<span class="fc" id="L99">		this.empName = empName;</span>
+<span class="fc" id="L100">		this.email = email;</span>
+<span class="fc" id="L101">		this.contactNumber = contactNumber;</span>
+<span class="fc" id="L102">		this.grade = grade;</span>
+<span class="fc" id="L103">		this.password = password;</span>
+<span class="fc" id="L104">		this.joiningDate = joiningDate;</span>
+<span class="fc" id="L105">		this.batchName = batchName;</span>
+<span class="fc" id="L106">	}</span>
+	
+	
+	//getters and setters
+	public String getCertificationStatus() {
+<span class="fc" id="L111">		return certificationStatus;</span>
+	}
+
+	public void setCertificationStatus(String certificationStatus) {
+<span class="fc" id="L115">		this.certificationStatus = certificationStatus;</span>
+<span class="fc" id="L116">	}</span>
+
+	public int getEmpID() {
+<span class="fc" id="L119">		return empID;</span>
+	}
+
+	public void setEmpID(int empID) {
+<span class="fc" id="L123">		this.empID = empID;</span>
+<span class="fc" id="L124">	}</span>
+
+	public String getEmpName() {
+<span class="fc" id="L127">		return empName;</span>
+	}
+
+	public void setEmpName(String empName) {
+<span class="fc" id="L131">		this.empName = empName;</span>
+<span class="fc" id="L132">	}</span>
+
+	public String getEmail() {
+<span class="fc" id="L135">		return email;</span>
+	}
+
+	public void setEmail(String email) {
+<span class="fc" id="L139">		this.email = email;</span>
+<span class="fc" id="L140">	}</span>
+
+	public long getContactNumber() {
+<span class="fc" id="L143">		return contactNumber;</span>
+	}
+
+	public void setContactNumber(long contactNumber) {
+<span class="fc" id="L147">		this.contactNumber = contactNumber;</span>
+<span class="fc" id="L148">	}</span>
+
+	public String getGrade() {
+<span class="fc" id="L151">		return grade;</span>
+	}
+
+	public void setGrade(String grade) {
+<span class="fc" id="L155">		this.grade = grade;</span>
+<span class="fc" id="L156">	}</span>
+
+	public String getPassword() {
+<span class="fc" id="L159">		return password;</span>
+	}
+
+	public void setPassword(String password) {
+<span class="fc" id="L163">		this.password = password;</span>
+<span class="fc" id="L164">	}</span>
+
+	public String getJoiningDate() {
+<span class="fc" id="L167">		return joiningDate;</span>
+	}
+
+	public void setJoiningDate(String joiningDate) {
+<span class="fc" id="L171">		this.joiningDate = joiningDate;</span>
+<span class="fc" id="L172">	}</span>
+
+	public String getBatchName() {
+<span class="fc" id="L175">		return batchName;</span>
+	}
+
+	public void setBatchName(String batchName) {
+<span class="fc" id="L179">		this.batchName = batchName;</span>
+<span class="fc" id="L180">	}</span>
+
+	public String getRole() {
+<span class="fc" id="L183">		return role;</span>
+	}
+
+	public String getStatus() {
+<span class="fc" id="L187">		return status;</span>
+	}
+
+	public void setStatus(String status) {
+<span class="fc" id="L191">		this.status = status;</span>
+<span class="fc" id="L192">	}</span>
+
+	public String getTrainedBy() {
+<span class="fc" id="L195">		return trainedBy;</span>
+	}
+
+	public void setTrainedBy(String trainedBy) {
+<span class="fc" id="L199">		this.trainedBy = trainedBy;</span>
+<span class="fc" id="L200">	}</span>
+
+	public String getMentorName() {
+<span class="fc" id="L203">		return mentorName;</span>
+	}
+
+	public void setMentorName(String mentorName) {
+<span class="fc" id="L207">		this.mentorName = mentorName;</span>
+<span class="fc" id="L208">	}</span>
+
+	public String getMentorEmail() {
+<span class="fc" id="L211">		return mentorEmail;</span>
+	}
+
+	public void setMentorEmail(String mentorEmail) {
+<span class="fc" id="L215">		this.mentorEmail = mentorEmail;</span>
+<span class="fc" id="L216">	}</span>
+
+	public String getReportingManagerName() {
+<span class="fc" id="L219">		return reportingManagerName;</span>
+	}
+
+	public void setReportingManagerName(String reportingManagerName) {
+<span class="fc" id="L223">		this.reportingManagerName = reportingManagerName;</span>
+<span class="fc" id="L224">	}</span>
+
+	public String getReportingManagerEmail() {
+<span class="fc" id="L227">		return reportingManagerEmail;</span>
+	}
+
+	public void setReportingManagerEmail(String reportingManagerEmail) {
+<span class="fc" id="L231">		this.reportingManagerEmail = reportingManagerEmail;</span>
+<span class="fc" id="L232">	}</span>
+
+	public String getCertificationName() {
+<span class="fc" id="L235">		return certificationName;</span>
+	}
+
+	public void setCertificationName(String certificationName) {
+<span class="fc" id="L239">		this.certificationName = certificationName;</span>
+<span class="fc" id="L240">	}</span>
+
+	public String getEnrolledStatus() {
+<span class="fc" id="L243">		return enrolledStatus;</span>
+	}
+
+	public void setEnrolledStatus(String enrolledStatus) {
+<span class="fc" id="L247">		this.enrolledStatus = enrolledStatus;</span>
+<span class="fc" id="L248">	}</span>
+
+	public String getEnrolledDate() {
+<span class="fc" id="L251">		return enrolledDate;</span>
+	}
+
+	public void setEnrolledDate(String enrolledDate) {
+<span class="fc" id="L255">		this.enrolledDate = enrolledDate;</span>
+<span class="fc" id="L256">	}</span>
+
+	public String getDeadlineDate() {
+<span class="fc" id="L259">		return deadlineDate;</span>
+	}
+
+	public void setDeadlineDate(String deadlineDate) {
+<span class="fc" id="L263">		this.deadlineDate = deadlineDate;</span>
+<span class="fc" id="L264">	}</span>
+
+	public int getNumberOfAttempts() {
+<span class="fc" id="L267">		return numberOfAttempts;</span>
+	}
+
+	public void setNumberOfAttempts(int numberOfAttempts) {
+<span class="fc" id="L271">		this.numberOfAttempts = numberOfAttempts;</span>
+<span class="fc" id="L272">	}</span>
+
+	public int getFirstAttempt() {
+<span class="fc" id="L275">		return firstAttempt;</span>
+	}
+
+	public void setFirstAttempt(int firstAttempt) {
+<span class="fc" id="L279">		this.firstAttempt = firstAttempt;</span>
+<span class="fc" id="L280">	}</span>
+
+	public int getSecondAttempt() {
+<span class="fc" id="L283">		return secondAttempt;</span>
+	}
+
+	public void setSecondAttempt(int secondAttempt) {
+<span class="fc" id="L287">		this.secondAttempt = secondAttempt;</span>
+<span class="fc" id="L288">	}</span>
+
+	public int getThirdAttempt() {
+<span class="fc" id="L291">		return thirdAttempt;</span>
+	}
+
+	public void setThirdAttempt(int thirdAttempt) {
+<span class="fc" id="L295">		this.thirdAttempt = thirdAttempt;</span>
+<span class="fc" id="L296">	}</span>
+
+	public String getVoucherStatus() {
+<span class="fc" id="L299">		return voucherStatus;</span>
+	}
+
+	public void setVoucherStatus(String voucherStatus) {
+<span class="fc" id="L303">		this.voucherStatus = voucherStatus;</span>
+<span class="fc" id="L304">	}</span>
+
+	@Generated
+	//toString method
+	@Override
+	public String toString() {
+		return &quot;UserModel [empID=&quot; + empID + &quot;, empName=&quot; + empName + &quot;, email=&quot; + email + &quot;, contactNumber=&quot;
+				+ contactNumber + &quot;, grade=&quot; + grade + &quot;, password=&quot; + password + &quot;, joiningDate=&quot; + joiningDate
+				+ &quot;, batchName=&quot; + batchName + &quot;, role=&quot; + role + &quot;, status=&quot; + status + &quot;, trainedBy=&quot; + trainedBy
+				+ &quot;, mentorName=&quot; + mentorName + &quot;, mentorEmail=&quot; + mentorEmail + &quot;, reportingManagerName=&quot;
+				+ reportingManagerName + &quot;, reportingManagerEmail=&quot; + reportingManagerEmail + &quot;, certificationName=&quot;
+				+ certificationName + &quot;, enrolledStatus=&quot; + enrolledStatus + &quot;, enrolledDate=&quot; + enrolledDate
+				+ &quot;, deadlineDate=&quot; + deadlineDate + &quot;, numberOfAttempts=&quot; + numberOfAttempts + &quot;, firstAttempt=&quot;
+				+ firstAttempt + &quot;, secondAttempt=&quot; + secondAttempt + &quot;, thirdAttempt=&quot; + thirdAttempt
+				+ &quot;, voucherStatus=&quot; + voucherStatus + &quot;]&quot;;
+	}
+	
+	
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

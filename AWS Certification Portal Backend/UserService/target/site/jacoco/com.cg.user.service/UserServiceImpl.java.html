@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UserService</a> &gt; <a href="index.source.html" class="el_package">com.cg.user.service</a> &gt; <span class="el_source">UserServiceImpl.java</span></div><h1>UserServiceImpl.java</h1><pre class="source lang-java linenums">package com.cg.user.service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.cg.user.exception.DataAlreadyExistsException;
+import com.cg.user.exception.EmailAlreadyExistsException;
+import com.cg.user.exception.IdNotFoundException;
+import com.cg.user.model.BatchDetailModel;
+import com.cg.user.model.LoginDetail;
+import com.cg.user.model.UserModel;
+import com.cg.user.repository.BatchDetailRepository;
+import com.cg.user.repository.LoginDetailRepository;
+import com.cg.user.repository.UserRepository;
+
+import lombok.Generated;
+
+@Service
+<span class="fc" id="L25">public class UserServiceImpl implements UserService{</span>
+
+	//injecting bean of UserRepository
+	@Autowired
+	private UserRepository userRepo;
+
+	//injecting bean of PasswordEncoder
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	//injecting bean of LoginDetailsRepository
+	@Autowired
+	private LoginDetailRepository loginRepo;
+		
+	//injecting bean of BatchDetailRepository
+	@Autowired
+	private BatchDetailRepository bacthRepo;
+	
+	@Override
+	public UserModel createUser(UserModel user) throws DataAlreadyExistsException, EmailAlreadyExistsException {
+	
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if(userRepo.existsById(user.getEmpID()))</span>
+		{
+<span class="fc" id="L48">			throw new DataAlreadyExistsException();</span>
+		}
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		else if(userRepo.existsByEmail(user.getEmail()))</span>
+		{
+<span class="fc" id="L52">			throw new EmailAlreadyExistsException();</span>
+		}
+<span class="fc" id="L54">		user.setPassword(passwordEncoder.encode(user.getPassword())); //encoding the password to the database for JWT</span>
+<span class="fc" id="L55">		LoginDetail login = new LoginDetail(user.getEmail(),user.getPassword(),user.getRole()) ;</span>
+		
+		
+		//updating user database based on batch name selected
+<span class="fc" id="L59">		Optional&lt;BatchDetailModel&gt; batchDB = this.bacthRepo.findById(user.getBatchName());</span>
+<span class="fc" id="L60">		BatchDetailModel useBatchDB = batchDB.get(); </span>
+		
+		
+<span class="fc" id="L63">		user.setTrainedBy(useBatchDB.getTrainedBy());</span>
+<span class="fc" id="L64">		user.setMentorName(useBatchDB.getMentorName());</span>
+<span class="fc" id="L65">		user.setMentorEmail(useBatchDB.getMentorEmail());</span>
+<span class="fc" id="L66">		user.setReportingManagerName(useBatchDB.getReportingManagerName());</span>
+<span class="fc" id="L67">		user.setReportingManagerEmail(useBatchDB.getReportingManagerEmail());</span>
+	
+		//Determining user status in the company (Fresher/Lateral)
+<span class="fc" id="L70">		LocalDate joiningDate = LocalDate.parse(user.getJoiningDate());</span>
+<span class="fc" id="L71">		LocalDate freshersTimePeriodEnd = joiningDate.plusDays(182);</span>
+<span class="fc" id="L72">		LocalDate currentDate = LocalDate.now();</span>
+		
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		if(currentDate.isAfter(freshersTimePeriodEnd))</span>
+		{
+<span class="nc" id="L76">			user.setStatus(&quot;Lateral&quot;);</span>
+<span class="nc" id="L77">		}</span>
+		else
+		{
+<span class="fc" id="L80">			user.setStatus(&quot;Fresher&quot;);</span>
+		}
+		
+<span class="fc" id="L83">		loginRepo.save(login); // save login data to database</span>
+<span class="fc" id="L84">		return userRepo.save(user); // save user data to database</span>
+	}
+
+	@Override
+	public UserModel updateUser(UserModel user) throws IdNotFoundException {
+
+<span class="fc" id="L90">		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(user.getEmpID());</span>
+<span class="fc" id="L91">		Optional&lt;LoginDetail&gt; loginDB = this.loginRepo.findById(user.getEmail());</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if(userDB.isPresent())</span>
+		{
+<span class="fc" id="L94">			UserModel updateDB = userDB.get();</span>
+<span class="fc" id="L95">			LoginDetail updateLoginDB = loginDB.get();</span>
+			
+<span class="fc" id="L97">			updateDB.setEmpName(user.getEmpName());</span>
+<span class="fc" id="L98">			updateDB.setEmail(user.getEmail());</span>
+<span class="fc" id="L99">			updateDB.setContactNumber(user.getContactNumber());</span>
+<span class="fc" id="L100">			updateDB.setGrade(user.getGrade());</span>
+<span class="fc" id="L101">			updateDB.setPassword(passwordEncoder.encode(user.getPassword()));</span>
+<span class="fc" id="L102">			updateDB.setBatchName(user.getBatchName());</span>
+			
+			//updating user status in the company (Fresher/Lateral)
+<span class="fc" id="L105">			LocalDate joiningDate = LocalDate.parse(user.getJoiningDate());</span>
+<span class="fc" id="L106">			LocalDate freshersTimePeriodEnd = joiningDate.plusDays(182);</span>
+<span class="fc" id="L107">			LocalDate currentDate = LocalDate.now();</span>
+			
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">			if(currentDate.isAfter(freshersTimePeriodEnd))</span>
+			{
+<span class="nc" id="L111">				updateDB.setStatus(&quot;Lateral&quot;);</span>
+<span class="nc" id="L112">			}</span>
+			else
+			{
+<span class="fc" id="L115">				updateDB.setStatus(&quot;Fresher&quot;);</span>
+			}
+			
+<span class="fc" id="L118">			updateLoginDB.setEmail(user.getEmail());</span>
+<span class="fc" id="L119">			updateLoginDB.setPassword(passwordEncoder.encode(user.getPassword()));</span>
+<span class="fc" id="L120">			loginRepo.save(updateLoginDB);</span>
+			
+<span class="fc" id="L122">			return userRepo.save(updateDB);</span>
+		}
+		else
+		{
+<span class="nc" id="L126">			throw new IdNotFoundException();</span>
+		}
+	
+		
+	}
+
+	@Override
+	public UserModel updateUserCertification(UserModel user) throws IdNotFoundException {
+	
+<span class="fc" id="L135">		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(user.getEmpID());</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">		if(userDB.isPresent())</span>
+		{
+<span class="fc" id="L138">			UserModel updateDB = userDB.get();</span>
+			
+<span class="fc" id="L140">			updateDB.setCertificationName(user.getCertificationName());</span>
+<span class="fc" id="L141">			updateDB.setEnrolledStatus(&quot;Enrolled&quot;);</span>
+			
+<span class="fc" id="L143">			LocalDate currentDate = LocalDate.now();</span>
+<span class="fc" id="L144">			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;YYYY-MM-dd&quot;);</span>
+<span class="fc" id="L145">			updateDB.setEnrolledDate((formatter.format(currentDate)).toString());</span>
+			
+			//updating deadline date
+<span class="fc" id="L148">			LocalDate enrolledDate = currentDate;</span>
+<span class="fc" id="L149">			int days = Integer.parseInt(user.getDeadlineDate());</span>
+<span class="fc" id="L150">			LocalDate endDate = enrolledDate.plusDays(days);</span>
+			
+<span class="fc" id="L152">			updateDB.setDeadlineDate(endDate.toString());//converting end date to string then updating the value</span>
+			
+			
+<span class="fc" id="L155">			return userRepo.save(updateDB);</span>
+		}
+		else
+		{
+<span class="nc" id="L159">			throw new IdNotFoundException();</span>
+		}
+	}
+
+	@Generated
+	@Override
+	public UserModel updateUserAssessment(UserModel user) throws IdNotFoundException {
+		
+		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(user.getEmpID());
+		if(userDB.isPresent())
+		{
+			UserModel updateDB = userDB.get();
+			
+			updateDB.setNumberOfAttempts(user.getNumberOfAttempts());
+			
+			if(user.getNumberOfAttempts() == 0)
+			{
+				updateDB.setNumberOfAttempts(user.getNumberOfAttempts()+1);
+				updateDB.setFirstAttempt(user.getFirstAttempt());
+				if(user.getFirstAttempt() &gt;= 85)
+				{
+					updateDB.setVoucherStatus(&quot;Shared&quot;);
+					updateDB.setCertificationStatus(&quot;Passed&quot;);
+				}
+			}
+			if(user.getNumberOfAttempts() == 1)
+			{
+				updateDB.setSecondAttempt(user.getFirstAttempt());
+				updateDB.setNumberOfAttempts(user.getNumberOfAttempts()+1);
+				if(user.getFirstAttempt() &gt;= 85)
+				{
+					updateDB.setVoucherStatus(&quot;Shared&quot;);
+					updateDB.setCertificationStatus(&quot;Passed&quot;);
+				}
+			}
+			if(user.getNumberOfAttempts() == 2)
+			{
+				updateDB.setThirdAttempt(user.getFirstAttempt());
+				updateDB.setNumberOfAttempts(user.getNumberOfAttempts()+1);
+				if(user.getFirstAttempt() &gt;= 85)
+				{
+					updateDB.setVoucherStatus(&quot;Shared&quot;);
+					updateDB.setCertificationStatus(&quot;Passed&quot;);
+				}
+				else
+				{
+					updateDB.setCertificationStatus(&quot;Failed&quot;);
+				}
+			}
+			
+			
+			
+			return userRepo.save(updateDB);
+		}
+		else
+		{
+			throw new IdNotFoundException();
+		}
+	}
+
+//	@Override
+//	public UserModel updateUserVoucherStatus(UserModel user) throws IdNotFoundException {
+//		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(user.getEmpID());
+//		if(userDB.isPresent())
+//		{
+//			UserModel updateDB = userDB.get();
+//			
+//			updateDB.setVoucherStatus(&quot;Shared&quot;);
+//
+//			return userRepo.save(updateDB);
+//		}
+//		else
+//		{
+//			throw new IdNotFoundException();
+//		}
+//	}
+
+	@Override
+	public List&lt;UserModel&gt; getAllUserData() {
+<span class="fc" id="L238">		return this.userRepo.findAll();</span>
+	}
+
+	@Override
+	public UserModel getUserDataByID(int id) throws IdNotFoundException {
+
+<span class="fc" id="L244">		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(id);</span>
+
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (userDB.isPresent()) {</span>
+        	
+<span class="fc" id="L248">            return userDB.get();</span>
+        } 
+        else
+        {
+<span class="nc" id="L252">        	throw new IdNotFoundException();</span>
+        }
+	}
+
+	@Override
+	public UserModel getUserDataByEmail(String email) throws IdNotFoundException {
+
+<span class="fc" id="L259">		Optional&lt;UserModel&gt; userDB = this.userRepo.findByEmail(email);</span>
+
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (userDB.isPresent()) {</span>
+        	
+<span class="fc" id="L263">            return userDB.get();</span>
+        } 
+        else
+        {
+<span class="fc" id="L267">        	throw new IdNotFoundException();</span>
+        }
+	}
+
+	@Override
+	public void deleteUserDataByID(int id) throws IdNotFoundException {
+		
+<span class="fc" id="L274">		Optional&lt;UserModel&gt; userDB = this.userRepo.findById(id);</span>
+		
+
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">        if (userDB.isPresent()) {</span>
+        	
+<span class="fc" id="L279">        	this.userRepo.delete(userDB.get());</span>
+<span class="fc" id="L280">        } </span>
+        else
+        {
+<span class="nc" id="L283">        	throw new IdNotFoundException();</span>
+        }
+		
+<span class="fc" id="L286">	}</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

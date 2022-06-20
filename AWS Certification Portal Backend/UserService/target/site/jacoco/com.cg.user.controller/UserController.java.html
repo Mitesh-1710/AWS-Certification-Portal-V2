@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UserService</a> &gt; <a href="index.source.html" class="el_package">com.cg.user.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.cg.user.controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.cg.user.exception.DataAlreadyExistsException;
+import com.cg.user.exception.EmailAlreadyExistsException;
+import com.cg.user.exception.IdNotFoundException;
+import com.cg.user.model.LoginDetail;
+import com.cg.user.model.UserModel;
+import com.cg.user.service.LoginDetailService;
+import com.cg.user.service.UserService;
+
+import lombok.Generated;
+
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@RestController
+//global request mapping url
+@RequestMapping(&quot;/api/user&quot;)
+<span class="fc" id="L33">public class UserController {</span>
+
+    //injecting bean of UserService
+	@Autowired
+	private UserService userServ;
+	
+	//injecting bean of UserService
+	@Autowired
+	private LoginDetailService loginServ;
+	
+	//signing up the new user and storing the information to database
+	@PostMapping(&quot;/all/signup&quot;)
+	public ResponseEntity&lt;UserModel&gt; createUser(@Valid @RequestBody UserModel user)throws DataAlreadyExistsException,EmailAlreadyExistsException
+	{
+<span class="fc" id="L47">		return new ResponseEntity&lt;&gt;(userServ.createUser(user), HttpStatus.CREATED);</span>
+		
+	}
+	
+    
+    // /public are accessible to everyone
+    //updating the user information in the database
+    @PutMapping(&quot;/public/updateUser/{id}&quot;)
+    public ResponseEntity &lt; UserModel &gt; updateUser(@Valid @RequestBody UserModel user ,@PathVariable int id) throws IdNotFoundException {
+<span class="fc" id="L56">    	user.setEmpID(id);</span>
+<span class="fc" id="L57">    	return new ResponseEntity&lt;&gt;(this.userServ.updateUser(user), HttpStatus.CREATED);</span>
+    }
+	
+    //updating the user Certification information in the database
+    @PutMapping(&quot;/public/updateUserCertification/{id}&quot;)
+    public ResponseEntity &lt; UserModel &gt; updateUserCertification(@Valid @RequestBody UserModel user ,@PathVariable int id) throws IdNotFoundException {
+<span class="fc" id="L63">    	user.setEmpID(id);</span>
+<span class="fc" id="L64">    	return new ResponseEntity&lt;&gt;(this.userServ.updateUserCertification(user), HttpStatus.CREATED);</span>
+    }
+    
+    //updating the user Assessment information in the database
+    @PutMapping(&quot;/public/updateUserAssessment/{id}&quot;)
+    public ResponseEntity &lt; UserModel &gt; updateUserAssessment(@Valid @RequestBody UserModel user ,@PathVariable int id) throws IdNotFoundException {
+<span class="fc" id="L70">    	user.setEmpID(id);</span>
+<span class="fc" id="L71">    	return new ResponseEntity&lt;&gt;(this.userServ.updateUserAssessment(user), HttpStatus.CREATED);</span>
+    }
+    
+      //updating the user Assessment information in the database
+//    @PutMapping(&quot;/public/updateUserVoucherStatus/{id}&quot;)
+//    public ResponseEntity &lt; UserModel &gt; updateUserVoucherStatus(@Valid @RequestBody UserModel user ,@PathVariable int id) throws IdNotFoundException {
+//    	user.setEmpID(id);
+//    	return new ResponseEntity&lt;&gt;(this.userServ.updateUserVoucherStatus(user), HttpStatus.CREATED);
+//    }
+    
+	// /private are accessible to admin only   
+    //display the information of all the users available in the database
+	@GetMapping(&quot;/private/displayAllUsers&quot;)
+    public ResponseEntity &lt; List &lt; UserModel &gt;&gt; getAllUserData() {
+<span class="fc" id="L85">        return ResponseEntity.ok().body(userServ.getAllUserData());</span>
+    }
+
+    //display the specific user information based on userID
+    @GetMapping(&quot;/public/getUser/{id}&quot;)
+    public ResponseEntity &lt; UserModel &gt; getUserDataByID(@PathVariable int id) throws IdNotFoundException {
+<span class="fc" id="L91">        return ResponseEntity.ok().body(userServ.getUserDataByID(id));</span>
+    }
+	
+    //display the specific user information based on user Email
+    @GetMapping(&quot;/public/getUserByEmail/{email}&quot;)
+    public ResponseEntity &lt; UserModel &gt; getUserDataByEmail(@PathVariable String email) throws IdNotFoundException {
+<span class="fc" id="L97">        return ResponseEntity.ok().body(userServ.getUserDataByEmail(email));</span>
+    }
+    
+    @Generated
+    //display the specific user creds based on user Email (testing)
+    @GetMapping(&quot;/cred/getCredDataById/{email}&quot;)
+    public ResponseEntity &lt; LoginDetail &gt; getCredDataById(@PathVariable String email) throws IdNotFoundException {
+        return ResponseEntity.ok().body(loginServ.getCredDataById(email));
+    }
+	
+	
+
+    //delete the user from the database
+    @DeleteMapping(&quot;/private/deleteUser/{id}&quot;)
+    public ResponseEntity&lt;String&gt;  deleteUserDataByID(@PathVariable int id) throws IdNotFoundException {
+<span class="fc" id="L112">        this.userServ.deleteUserDataByID(id);</span>
+<span class="fc" id="L113">        return new ResponseEntity&lt;&gt;(&quot;User data deleted successfully !!&quot;, HttpStatus.OK);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

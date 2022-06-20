@@ -1,0 +1,356 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* -------------------Scrollbar ------------------*/
+
+::-webkit-scrollbar {
+    width: 15px;              
+}
+  
+::-webkit-scrollbar-track {
+    background: #fff;        
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: #0070AD;   
+    border-radius: 20px;       
+    border: 2px solid #fff;   
+}
+
+.login{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.login h1{
+    font-size: 30px;
+    letter-spacing: 1px;
+    word-wrap: break-word;
+    font-weight: bold;
+    padding-bottom: 30px;
+    margin-top: 50px;
+    width: 100%;
+    color:#0070AD;
+}
+.login input{
+    width: 400px;
+    padding: 14px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+.login input:focus{
+    caret-color: black;
+    border-color: #7CBBEB;
+    box-shadow: 0 0 0 2px #e7f3ff;
+    outline: none;
+    
+}
+.inside-login{
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    box-sizing: border-box;
+    margin: 40px 0 0;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    width: 396px;
+    text-align: center;
+}
+
+.login input[type="submit"]{
+    background-color: #0070AD;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    width: 440px;
+    color: #fff;
+    font-weight: normal;
+    margin-top: 30px;
+}
+
+.login input[type="submit"]:hover{
+    cursor: pointer;
+    background-color: #04669b;
+}
+
+.sign-in{
+    background-color: #0070AD;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    width: 440px;
+    color: #fff;
+    font-weight: normal;
+    margin-top: 30px;
+}
+
+.sign-in:hover{
+    cursor: pointer;
+    background-color: #04669b;
+}
+
+.alert{
+    background-color: #F2DEDE;
+    color: #A94442;
+    padding:10px;
+    border:1px solid #EBCCD1;
+    border-radius:5px;
+}
+
+form{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.418);
+    transition: 0.3s;
+    padding: 10px;
+}
+
+form:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582);
+}
+
+/* -------------------------------Admin User------------------------------------- */
+
+.admin-user{
+   width: 99vw;
+   overflow-x: auto;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.418);
+   margin-top: 20px;
+}
+
+.admin-user:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582);
+}
+
+.user-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid black;
+    transition: 0.3s;
+}
+
+.user-table th {
+    text-align: center;
+    padding: 8px;
+    background-color: #0779b6;
+    color: #ffffff;
+    font-weight: 500;
+    border: 1px solid black;
+}
+  
+.user-table td{
+    text-align: center;
+    padding: 8px;
+    border: 1px solid black;
+}
+.user-table tr:nth-child(even){
+    background-color: #f2f2f2
+}
+
+.user-table tr:hover{
+    background-color: #9dcbee;
+}
+
+.delete-btn{
+    background-color: #0779b6;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+.generate-report{
+    background-color: #0779b6;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.33;
+    color: white;
+    padding: 5px;
+    font-weight: normal;
+    margin: 5px;
+}
+
+.generate-report:hover{
+    cursor: pointer;
+    background-color: #04669b;
+    font-weight: 600;
+}
+/*------------------------ about--------------------------------------------------- */
+
+.container{
+    height: 84vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.about{
+    margin-top: 30px;
+}
+
+.about-img{
+    height: 80%;
+    width: 95%;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.418);
+    transition: 0.3s;
+}
+
+.about-img:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582);
+}
+
+/* -----------------------------Change Password----------------------------------------*/
+
+.change-pswd{
+    margin-top: 30px;
+}
+
+
+/* ----------------------------------Page404 --------------------------------------------*/
+
+.page404{
+    margin-top: 30px;
+}
+
+/* --------------------------------------Signup--------------------------------------------- */
+.select{
+    width: 435px;
+    padding: 16px 18px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+
+.batch:focus{
+    border: 1px solid #7CBBEB;
+}
+
+.sign-up{
+    background-color: #0070AD;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    width: 440px;
+    color: #fff;
+    font-weight: normal;
+    margin-top: 30px;
+}
+
+.sign-up:hover{
+    cursor: pointer;
+    background-color: #04669b;
+}
+
+.alerts{
+    /* background-color: #F2DEDE; */
+    color: #A94442;
+    padding:5px;
+    /* border:1px solid #EBCCD1; */
+    border-radius:5px;
+}
+
+/* -------------------------------------Certification---------------------------------------- */
+
+.section-cert{
+    height: 84vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.418);
+    transition: 0.3s;
+    width: 500px;
+    margin: 30px;
+    border-radius: 10px;
+  
+}
+.card h2{
+    color: #0070AD;
+}
+.card p{
+    color: black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582);
+}
+
+.padding{
+    padding: 10px;
+}
+
+img{
+    border-radius: 10px 10px 0px 0px;
+    width: 500px;
+}
+
+.enroll-btn{
+    background-color: #0070AD;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    width: 440px;
+    color: #fff;
+    font-weight: normal;
+    margin-top: 10px;
+}
+a{
+    color: #0070AD;
+}
+
+.enroll-btn:hover{
+    cursor: pointer;
+    background-color: #04669b;
+}
+
+#hidden{
+    display: none;
+}
+
+/* ----------------------------------User Profile ---------------------------------*/
+
+.profile{
+    margin-top: 30px;
+}
+
+label{
+    text-align: left;
+    margin-left: 14px;
+    color: #0070AD;
+    font-weight: 600;
+}
+

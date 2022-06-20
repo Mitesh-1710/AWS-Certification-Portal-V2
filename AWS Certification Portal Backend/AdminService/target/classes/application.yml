@@ -1,0 +1,45 @@
+server:
+  port: 8085
+
+spring:
+
+  application:
+      name: AdminService
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+  data:
+   mongodb:
+     uri: mongodb+srv://Mitesh:tZWcMFA9xyQ8pNbh@clustertest.mbl85.mongodb.net/AWSCertificationPortalUpdatedDB?retryWrites=true&w=majority
+     
+data:
+  exception:
+     dataExists: Admin Already Exists..!!
+     dataNotFound: Admin Id Not Found..!!
+     emailExists: Email Already Exists..!!
+
+eureka:
+   instance:
+    hostname: localhost
+   client:
+      service-url:
+       defaultZone: http://localhost:8761/eureka/
+
+logging:
+  file:
+    name: AdminService.log
+  level:
+    '[org.springframework.security]': DEBUG 
+
+
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 3600000 # 1hr duration by default: 60 minutes * 60 seconds * 1000 miliseconds
+    

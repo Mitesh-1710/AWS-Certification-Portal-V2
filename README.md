@@ -1,14 +1,194 @@
-# AWS-Certification-Portal-V2
-Application to keep track of all the activities that user performs related to AWS certification , for example enrolled for particular certification , giving assessments , Getting vouchers , etc..
+# 🚀 AWS Certification Portal V2
 
-The AWS Certification Portal allows users to access and manage their certification activities, progress, and benefits all in one place. Previously, they had to rely on multiple websites to find and manage certification offerings. Now users can have a central place where they can find and register for different role-based AWS Certification exams, track their scheduled exams, and access benefits based on the AWS Certifications they have achieved.
+A full-stack web application that centralizes and streamlines the AWS certification journey — enabling users to discover exams, register, apply vouchers, track exam history, and manage certifications in one unified platform.
 
-The AWS Certification exam is divided into four categories. 1. Foundational 2. Associate; 3. Professional; and 4. Specialty. These categories also have their own subcategories of exam titles, with each exam title assigned its own unique exam code. Users have to first register themselves before they can login and access the portal. Users can search for specific exams by name or by exam code. They have to select a suitable exam and proceed with the further exam registration process. Also note that specific exam titles are available for a specific time period only; the user can see the time period under the specified active exam date and expiration exam date fields.
+---
 
-Once the user has selected the exam, they will be redirected to the exam mode selection page, where they have to select where they want to take their exam, either at an offline test centre or online at their own place. Once the user selects the mode of the exam further, they have to specify their preferred language for the exam and select the date and time of the exam. After that, the user will be redirected to the payment gateway, where they have the option of applying for a voucher to get a discount for a particular exam, and then they have to make a payment.
+## 📖 Project Overview
 
-On the portal, users can also navigate and find their previous exam records and certificates under the Exam History and Achieved Certifications tabs, respectively. They can also view and modify their data under the "My Profile tab.
+The **AWS Certification Portal V2** eliminates the need for multiple platforms by providing a single, centralized system for managing AWS certification activities.
 
-Frontend : HTML , CSS , JavaScript , ReactJs
+Users can:
 
-Backend : Java , SpringBoot
+* Register and securely log in
+* Browse and search AWS certification exams
+* Enroll in exams (online or offline mode)
+* Apply discount vouchers
+* Track scheduled exams
+* View exam history
+* Access achieved certifications
+* Manage personal profile information
+
+This project demonstrates real-world full-stack development using modern web technologies and backend architecture principles.
+
+---
+
+## 🏷️ AWS Certification Categories
+
+The portal supports all four AWS certification levels:
+
+1. **Foundational**
+2. **Associate**
+3. **Professional**
+4. **Specialty**
+
+Each category contains multiple exam titles with unique exam codes, active dates, and expiration dates.
+
+---
+
+## 🧩 Key Features
+
+### 👤 User Management
+
+* User Registration
+* Secure Login
+* Profile Management (Update personal details)
+
+### 🔍 Exam Search & Discovery
+
+* Search exams by:
+
+  * Exam Name
+  * Exam Code
+* View:
+
+  * Certification Category
+  * Active Exam Date
+  * Expiration Date
+  * Exam Description
+
+### 📝 Exam Registration Workflow
+
+1. Select Exam
+2. Choose Exam Mode:
+
+   * Offline Test Center
+   * Online (Remote)
+3. Select:
+
+   * Preferred Language
+   * Date
+   * Time Slot
+4. Apply Voucher (Optional)
+5. Complete Payment
+
+### 🎟 Voucher System
+
+* Apply available vouchers during checkout
+* Automatic discount calculation
+
+### 📊 Certification Tracking
+
+* Exam History (Past & Upcoming)
+* Achieved Certifications
+* Profile Management Dashboard
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (ES6+)
+* React.js
+
+### Backend
+
+* Java
+* Spring Boot
+* RESTful APIs
+
+### Architecture
+
+```
+React Frontend
+      ↓
+Spring Boot REST APIs
+      ↓
+Database (User, Exam, Voucher, Certification Data)
+```
+
+---
+
+## 📂 Project Structure
+
+```
+AWS-Certification-Portal-V2
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── backend/
+│   ├── src/main/java/
+│   ├── src/main/resources/
+│   └── pom.xml
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 🔹 Backend Setup
+
+```bash
+cd backend
+mvn clean install
+mvn spring-boot:run
+```
+
+Backend runs on:
+
+```
+http://localhost:8080
+```
+
+---
+
+### 🔹 Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Frontend runs on:
+
+```
+http://localhost:3000
+```
+
+---
+
+## 🔐 Core Functional Modules
+
+* Authentication & Authorization
+* Exam Management
+* Voucher Management
+* Payment Integration Flow
+* Certification Tracking
+* User Profile Management
+
+---
+
+## 📈 Future Enhancements
+
+* Email notifications for exam reminders
+* Certificate PDF download
+* Admin dashboard
+* Role-based access control (Admin/User)
+* Dashboard analytics & reporting
+* Cloud deployment (AWS EC2 / S3 / RDS)
+* CI/CD pipeline integration
+
+---
+
+## 📜 License
+
+This project is built for educational and demonstration purposes.
